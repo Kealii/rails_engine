@@ -12,5 +12,5 @@
 !/log/.keep
 /tmp
 /.idea
-
+/coverage
 /data
