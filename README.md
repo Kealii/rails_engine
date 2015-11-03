@@ -3,8 +3,8 @@
 Rails Engine is an e-commerce platform in Rails for parsing mechant and customer data.
 This was written as requested by Turing School.
 
-** Database
+# Database
     Postgresql
 
-** Test Suite
+# Test Suite
     RSpec
