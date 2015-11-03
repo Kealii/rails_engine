@@ -14,3 +14,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.infer_spec_type_from_file_location!
 end
+
+def json_response
+  JSON.parse(response.body)
+end
