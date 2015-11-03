@@ -10,7 +10,7 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
       expect(response).to have_http_status :success
     end
 
-    it "returns the correct record" do
+    it "returns the correct customer" do
       get :show, id: customer.id, format: :json
       expect(json_response["first_name"]).to eq "Test"
       expect(json_response["last_name"]).to eq "Customer"
