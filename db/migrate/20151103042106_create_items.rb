@@ -3,8 +3,8 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
       t.string :name
       t.string :description
-      t.string :unit_price
-      t.string :merchant_id
+      t.decimal :unit_price
+      t.integer :merchant_id
 
       t.timestamps null: false
     end

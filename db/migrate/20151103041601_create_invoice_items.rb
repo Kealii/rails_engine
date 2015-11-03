@@ -1,10 +1,10 @@
 class CreateInvoiceItems < ActiveRecord::Migration
   def change
     create_table :invoice_items do |t|
-      t.string :item_id
-      t.string :invoice_id
-      t.string :quantity
-      t.string :unit_price
+      t.integer :item_id
+      t.integer :invoice_id
+      t.integer :quantity
+      t.decimal :unit_price
 
       t.timestamps null: false
     end
