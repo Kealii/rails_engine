@@ -3,16 +3,16 @@ require 'rails_helper'
 RSpec.describe Api::V1::InvoicesController, type: :controller do
 
   let!(:invoice1) { Invoice.create(customer_id: 1,
-                                 merchant_id: 2,
-                                 status: "success") }
+                                   merchant_id: 2,
+                                   status:      "success") }
 
   let!(:invoice2) { Invoice.create(customer_id: 1,
-                                  merchant_id: 2,
-                                  status: "success") }
+                                   merchant_id: 2,
+                                   status:      "success") }
 
   let!(:invoice3) { Invoice.create(customer_id: 3,
-                                  merchant_id: 4,
-                                  status: "failed") }
+                                   merchant_id: 4,
+                                   status:      "failed") }
 
   describe "GET #show" do
     it "returns the correct invoice" do
