@@ -73,4 +73,12 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
       expect(json_response.last["last_name"]).to eq customer2.last_name
     end
   end
+
+  describe "GET #random" do
+    it "returns a customer" do
+      get :random, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
 end

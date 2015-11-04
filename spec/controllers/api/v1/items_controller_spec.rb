@@ -119,4 +119,12 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
       expect(json_response.last["merchant_id"]).to eq item1.merchant_id
     end
   end
+
+  describe "GET #random" do
+    it "returns an item" do
+      get :random, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
 end

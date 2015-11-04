@@ -60,4 +60,12 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
       expect(json_response.last["name"]).to eq merchant1.name
     end
   end
+
+  describe "GET #random" do
+    it "returns a merchant" do
+      get :random, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
 end

@@ -15,6 +15,10 @@ class Api::V1::CustomersController < ApplicationController
     respond_with Customer.where(find_params)
   end
 
+  def random
+    respond_with Customer.limit(1).order("RANDOM()")
+  end
+
   private
 
   def find_params

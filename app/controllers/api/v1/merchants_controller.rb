@@ -15,6 +15,10 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.where(find_params)
   end
 
+  def random
+    respond_with Merchant.limit(1).order("RANDOM()")
+  end
+
   private
 
   def find_params

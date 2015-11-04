@@ -122,4 +122,12 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
       expect(json_response.last["unit_price"].to_f).to eq invoice_item1.unit_price
     end
   end
+
+  describe "GET #random" do
+    it "returns an invoice item" do
+      get :random, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
 end
