@@ -72,14 +72,17 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
   describe "GET #items" do
     let!(:item1) { Item.create(name: "Item 1",
                                description: "Description 1",
+                               unit_price:  1,
                                merchant_id: merchant1.id) }
 
     let!(:item2) { Item.create(name: "Item 2",
                                description: "Description 2",
+                               unit_price: 1,
                                merchant_id: merchant1.id) }
 
     let!(:item3) { Item.create(name: "Item 3",
                                description: "Description 3",
+                               unit_price: 2,
                                merchant_id: merchant2.id) }
 
     it "returns items for a merchant" do

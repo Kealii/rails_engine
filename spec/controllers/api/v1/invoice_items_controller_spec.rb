@@ -17,23 +17,27 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
   let!(:invoice_item1) { InvoiceItem.create(item_id:    item1.id,
                                             invoice_id: invoice1.id,
                                             quantity:   3,
-                                            unit_price: 4) }
+                                            unit_price: item1.unit_price) }
 
   let!(:invoice_item2) { InvoiceItem.create(item_id:    item1.id,
                                             invoice_id: invoice1.id,
                                             quantity:   3,
-                                            unit_price: 4) }
+                                            unit_price: item1.unit_price) }
 
   let!(:invoice_item3) { InvoiceItem.create(item_id:    item2.id,
                                             invoice_id: invoice2.id,
                                             quantity:   7,
-                                            unit_price: 8) }
+                                            unit_price: item2.unit_price) }
 
   let!(:item1) { Item.create(name:        "Test Item",
-                             description: "Test Description")}
+                             description: "Test Description",
+                             unit_price:  1,
+                             merchant_id: 1) }
 
   let!(:item2) { Item.create(name:        "Test Item 2",
-                             description: "Test Description 2")}
+                             description: "Test Description 2",
+                             unit_price:  2,
+                             merchant_id: 1) }
 
   describe "GET #show" do
     it "returns the correct invoice item" do

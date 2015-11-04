@@ -66,13 +66,6 @@ RSpec.describe Api::V1::TransactionsController, type: :controller do
       expect(json_response["credit_card_number"]).to eq transaction1.credit_card_number
     end
 
-    it "returns the right transaction by credit card expiration" do
-      get :find, credit_card_expiration_date: transaction1.credit_card_expiration_date, format: :json
-
-      expect(response).to have_http_status :success
-      expect(json_response["credit_card_expiration_date"]).to eq transaction1.credit_card_expiration_date
-    end
-
     it "returns the right transaction by result" do
       get :find, result: transaction1.result, format: :json
 
@@ -106,15 +99,6 @@ RSpec.describe Api::V1::TransactionsController, type: :controller do
       expect(json_response.count).to eq 2
       expect(json_response.first["credit_card_number"]).to eq transaction1.credit_card_number
       expect(json_response.last["credit_card_number"]).to eq transaction1.credit_card_number
-    end
-
-    it "returns the right transactions by credit card expiration" do
-      get :find_all, credit_card_expiration_date: transaction1.credit_card_expiration_date, format: :json
-
-      expect(response).to have_http_status :success
-      expect(json_response.count).to eq 2
-      expect(json_response.first["credit_card_expiration_date"]).to eq transaction1.credit_card_expiration_date
-      expect(json_response.last["credit_card_expiration_date"]).to eq transaction1.credit_card_expiration_date
     end
 
     it "returns the right transactions by result" do
