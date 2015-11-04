@@ -4,6 +4,17 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
 
   let!(:customer1) { Customer.create(first_name: "Test",  last_name: "Customer") }
   let!(:customer2) { Customer.create(first_name: "Test",  last_name: "Strife"  ) }
+  let!(:invoice1) { Invoice.create(customer_id: customer1.id,
+                                   merchant_id: 2,
+                                   status:      "success") }
+
+  let!(:invoice2) { Invoice.create(customer_id: customer1.id,
+                                   merchant_id: 2,
+                                   status:      "success") }
+
+  let!(:invoice3) { Invoice.create(customer_id: customer2.id,
+                                   merchant_id: 2,
+                                   status:      "success") }
 
   describe "GET #show" do
     it "returns the correct customer" do
@@ -79,6 +90,17 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
       get :random, format: :json
 
       expect(response).to have_http_status :success
+    end
+  end
+
+  describe "GET #invoices" do
+    it "returns invoices for a customer" do
+      get :invoices, customer_id: customer1.id, format: :json
+
+      expect(response).to have_http_status :success
+      expect(json_response.count).to eq 2
+      expect(json_response.first["id"]).to eq invoice1.id
+      expect(json_response.last["id"]).to eq invoice2.id
     end
   end
 end
