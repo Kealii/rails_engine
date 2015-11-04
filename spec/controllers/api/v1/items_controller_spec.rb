@@ -5,17 +5,17 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
   let!(:item1) { Item.create(name:        "Test Item",
                              description: "Test Description",
                              unit_price:  1,
-                             merchant_id: 2) }
+                             merchant_id: merchant1.id) }
 
   let!(:item2) { Item.create(name:        "Test Item",
                              description: "Test Description",
                              unit_price:  1,
-                             merchant_id: 2) }
+                             merchant_id: merchant1.id) }
 
   let!(:item3) { Item.create(name:        "Such Car",
                              description: "So Wow",
                              unit_price:  3,
-                             merchant_id: 4) }
+                             merchant_id: merchant2.id) }
 
   let!(:invoice_item1) { InvoiceItem.create(item_id:    item1.id,
                                             invoice_id: 1,
@@ -26,6 +26,9 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
                                             invoice_id: 1,
                                             quantity:   3,
                                             unit_price: 4) }
+
+  let(:merchant1) { Merchant.create(name: "Test Merchant") }
+  let(:merchant2) { Merchant.create(name: "Test Merchant 2") }
 
   describe "GET #show" do
     it "returns the correct item" do
@@ -146,6 +149,15 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
       expect(json_response.count).to eq 2
       expect(json_response.first["id"]).to eq invoice_item1.id
       expect(json_response.last["id"]).to eq invoice_item2.id
+    end
+  end
+
+  describe "GET #merchant" do
+    it "returns merchant for an item" do
+      get :merchant, item_id: item1.id, format: :json
+
+      expect(response).to have_http_status :success
+      expect(json_response["id"]).to eq merchant1.id
     end
   end
 end
