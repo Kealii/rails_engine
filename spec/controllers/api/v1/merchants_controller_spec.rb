@@ -113,4 +113,13 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
       expect(json_response.count).to eq 2
     end
   end
+
+  describe "GET #most_revenue" do
+    it "returns the correct number of merchants" do
+      get :most_revenue, quantity: 2, format: :json
+
+      expect(response).to have_http_status :success
+      expect(json_response.count).to eq 2
+    end
+  end
 end
