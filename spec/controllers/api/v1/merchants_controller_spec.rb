@@ -60,5 +60,4 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
       expect(json_response.last["name"]).to eq merchant1.name
     end
   end
-
 end
