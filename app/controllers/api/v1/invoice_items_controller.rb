@@ -20,7 +20,11 @@ class Api::V1::InvoiceItemsController < ApplicationController
   end
 
   def invoice
-    respond_with InvoiceItem.find(find_params[:invoice_item_id])
+    respond_with InvoiceItem.find(find_params[:invoice_item_id]).invoice
+  end
+
+  def item
+    respond_with InvoiceItem.find(find_params[:invoice_item_id]).item
   end
 
   private

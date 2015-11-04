@@ -2,21 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
 
-  let!(:invoice_item1) { InvoiceItem.create(item_id:   1,
-                                           invoice_id: invoice1.id,
-                                           quantity:   3,
-                                           unit_price: 4) }
-
-  let!(:invoice_item2) { InvoiceItem.create(item_id:   1,
-                                           invoice_id: invoice1.id,
-                                           quantity:   3,
-                                           unit_price: 4) }
-
-  let!(:invoice_item3) { InvoiceItem.create(item_id:   5,
-                                           invoice_id: invoice2.id,
-                                           quantity:   7,
-                                           unit_price: 8) }
-
   let!(:invoice1) { Invoice.create(customer_id: 1,
                                    merchant_id: 1,
                                    status:      "success") }
@@ -26,8 +11,29 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
                                    status:      "success") }
 
   let!(:invoice3) { Invoice.create(customer_id: 2,
-                                   merchant_id: 1,
+                                   merchant_id: 3,
                                    status:      "failed") }
+
+  let!(:invoice_item1) { InvoiceItem.create(item_id:    item1.id,
+                                            invoice_id: invoice1.id,
+                                            quantity:   3,
+                                            unit_price: 4) }
+
+  let!(:invoice_item2) { InvoiceItem.create(item_id:    item1.id,
+                                            invoice_id: invoice1.id,
+                                            quantity:   3,
+                                            unit_price: 4) }
+
+  let!(:invoice_item3) { InvoiceItem.create(item_id:    item2.id,
+                                            invoice_id: invoice2.id,
+                                            quantity:   7,
+                                            unit_price: 8) }
+
+  let!(:item1) { Item.create(name:        "Test Item",
+                             description: "Test Description")}
+
+  let!(:item2) { Item.create(name:        "Test Item 2",
+                             description: "Test Description 2")}
 
   describe "GET #show" do
     it "returns the correct invoice item" do
@@ -148,7 +154,17 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
       get :invoice, invoice_item_id: invoice_item1.id, format: :json
 
       expect(response).to have_http_status :success
-      expect(json_response["invoice_id"]).to eq invoice1.id
+      expect(json_response["id"]).to eq invoice1.id
     end
   end
+
+  describe "GET #item" do
+    it "returns the item for an invoice item" do
+      get :item, invoice_item_id: invoice_item1.id, format: :json
+
+      expect(response).to have_http_status :success
+      expect(json_response["id"]).to eq item1.id
+    end
+  end
+
 end
