@@ -7,7 +7,6 @@ require 'database_cleaner'
 require 'simplecov'
 
 SimpleCov.start 'rails'
-DatabaseCleaner.strategy = :truncation
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
