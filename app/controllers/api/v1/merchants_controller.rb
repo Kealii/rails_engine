@@ -31,6 +31,10 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.revenue_ranking(find_params[:quantity])
   end
 
+  def most_items
+    respond_with Merchant.item_ranking(find_params[:quantity])
+  end
+
   private
 
   def find_params
