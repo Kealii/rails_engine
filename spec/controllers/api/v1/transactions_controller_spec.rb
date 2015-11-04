@@ -2,20 +2,28 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::TransactionsController, type: :controller do
 
-  let!(:transaction1) { Transaction.create(invoice_id:                  1,
+  let!(:transaction1) { Transaction.create(invoice_id:                  invoice1.id,
                                            credit_card_number:          "2",
                                            credit_card_expiration_date: "3",
                                            result:                      "success") }
 
-  let!(:transaction2) { Transaction.create(invoice_id:                  1,
+  let!(:transaction2) { Transaction.create(invoice_id:                  invoice1.id,
                                            credit_card_number:          "2",
                                            credit_card_expiration_date: "3",
                                            result:                      "success") }
 
-  let!(:transaction3) { Transaction.create(invoice_id:                  4,
+  let!(:transaction3) { Transaction.create(invoice_id:                  invoice2.id,
                                            credit_card_number:          "5",
                                            credit_card_expiration_date: "6",
                                            result:                      "failed") }
+
+  let!(:invoice1) { Invoice.create(customer_id: 1,
+                                   merchant_id: 2,
+                                   status:      "success") }
+
+  let!(:invoice2) { Invoice.create(customer_id: 3,
+                                   merchant_id: 4,
+                                   status:      "success") }
 
   describe "GET #show" do
     it "returns the correct transaction" do
@@ -116,6 +124,23 @@ RSpec.describe Api::V1::TransactionsController, type: :controller do
       expect(json_response.count).to eq 2
       expect(json_response.first["result"]).to eq transaction1.result
       expect(json_response.last["result"]).to eq transaction1.result
+    end
+  end
+
+  describe "GET #random" do
+    it "returns a transaction" do
+      get :random, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
+
+  describe "GET #invoice" do
+    it "returns an invoice from a transaction" do
+      get :invoice, transaction_id: transaction1.id, format: :json
+
+      expect(response).to have_http_status :success
+      expect(json_response["id"]).to eq invoice1.id
     end
   end
 

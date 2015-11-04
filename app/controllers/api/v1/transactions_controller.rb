@@ -15,10 +15,19 @@ class Api::V1::TransactionsController < ApplicationController
     respond_with Transaction.where(find_params)
   end
 
+  def random
+    respond_with Transaction.limit(1).order("RANDOM()")
+  end
+
+  def invoice
+    respond_with Transaction.find(find_params[:transaction_id]).invoice
+  end
+
   private
 
   def find_params
     params.permit(:id,
+                  :transaction_id,
                   :invoice_id,
                   :credit_card_number,
                   :credit_card_expiration_date,
