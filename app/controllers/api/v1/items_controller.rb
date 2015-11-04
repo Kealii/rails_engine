@@ -19,10 +19,15 @@ class Api::V1::ItemsController < ApplicationController
     respond_with Item.limit(1).order("RANDOM()")
   end
 
+  def invoice_items
+    respond_with Item.find(find_params[:item_id]).invoice_items
+  end
+
   private
 
   def find_params
     params.permit(:id,
+                  :item_id,
                   :name,
                   :description,
                   :unit_price,

@@ -17,6 +17,16 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
                              unit_price:  3,
                              merchant_id: 4) }
 
+  let!(:invoice_item1) { InvoiceItem.create(item_id:    item1.id,
+                                            invoice_id: 1,
+                                            quantity:   3,
+                                            unit_price: 4) }
+
+  let!(:invoice_item2) { InvoiceItem.create(item_id:    item1.id,
+                                            invoice_id: 1,
+                                            quantity:   3,
+                                            unit_price: 4) }
+
   describe "GET #show" do
     it "returns the correct item" do
       get :show, id: item1.id, format: :json
@@ -125,6 +135,17 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
       get :random, format: :json
 
       expect(response).to have_http_status :success
+    end
+  end
+
+  describe "GET #invoice_items" do
+    it "returns invoice items for an item" do
+      get :invoice_items, item_id: item1.id, format: :json
+
+      expect(response).to have_http_status :success
+      expect(json_response.count).to eq 2
+      expect(json_response.first["id"]).to eq invoice_item1.id
+      expect(json_response.last["id"]).to eq invoice_item2.id
     end
   end
 end
