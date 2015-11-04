@@ -4,6 +4,7 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
 
   let!(:customer1) { Customer.create(first_name: "Test",  last_name: "Customer") }
   let!(:customer2) { Customer.create(first_name: "Test",  last_name: "Strife"  ) }
+
   let!(:invoice1) { Invoice.create(customer_id: customer1.id,
                                    merchant_id: 2,
                                    status:      "success") }
