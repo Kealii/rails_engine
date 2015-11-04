@@ -22,8 +22,7 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
       get :show, id: invoice_item1.id, format: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response["quantity"]).to eq invoice_item1.quantity
-      expect(json_response["unit_price"].to_f).to eq invoice_item1.unit_price
+      expect(json_response["id"]).to eq invoice_item1.id
     end
   end
 
