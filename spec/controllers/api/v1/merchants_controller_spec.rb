@@ -68,4 +68,25 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
       expect(response).to have_http_status :success
     end
   end
+
+  describe "GET #items" do
+      let!(:item1) { Item.create(name: "Item 1",
+                                 description: "Description 1",
+                                 merchant_id: merchant1.id) }
+
+      let!(:item2) { Item.create(name: "Item 2",
+                                 description: "Description 2",
+                                 merchant_id: merchant1.id) }
+
+      let!(:item3) { Item.create(name: "Item 3",
+                                 description: "Description 3",
+                                 merchant_id: merchant2.id) }
+
+    it "returns items for a merchant" do
+      get :items, merchant_id: merchant1.id, format: :json
+
+      expect(response).to have_http_status :success
+      expect(json_response.count).to eq 2
+    end
+  end
 end
