@@ -5,16 +5,22 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
   let!(:customer1) { Customer.create(first_name: "Test",  last_name: "Customer") }
   let!(:customer2) { Customer.create(first_name: "Test",  last_name: "Strife"  ) }
 
+  let!(:merchant1) { Merchant.create(name: "Test Merchant") }
+  let!(:merchant2) { Merchant.create(name: "Test Merchant") }
+
+  let!(:transaction1) { Transaction.create(invoice_id: invoice1.id,
+                                           result:     "success") }
+
   let!(:invoice1) { Invoice.create(customer_id: customer1.id,
-                                   merchant_id: 2,
+                                   merchant_id: merchant1.id,
                                    status:      "success") }
 
   let!(:invoice2) { Invoice.create(customer_id: customer1.id,
-                                   merchant_id: 2,
+                                   merchant_id: merchant1.id,
                                    status:      "success") }
 
   let!(:invoice3) { Invoice.create(customer_id: customer2.id,
-                                   merchant_id: 2,
+                                   merchant_id: merchant2.id,
                                    status:      "success") }
 
   describe "GET #show" do
@@ -46,12 +52,18 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
       expect(json_response["id"]).to eq customer1.id
     end
 
-    it "returns the correct customer by first name" do
+    it "returns a customer by first name" do
       get :find, first_name: customer1.first_name, format: :json
 
       expect(response).to have_http_status :success
       expect(json_response["first_name"]).to eq customer1.first_name
-      expect(json_response["id"]).to eq customer1.id
+    end
+
+    it "returns a customer by last name" do
+      get :find, first_name: customer1.first_name, format: :json
+
+      expect(response).to have_http_status :success
+      expect(json_response["last_name"]).to eq customer1.last_name
     end
   end
 
@@ -102,6 +114,15 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
       expect(json_response.count).to eq 2
       expect(json_response.first["id"]).to eq invoice1.id
       expect(json_response.last["id"]).to eq invoice2.id
+    end
+  end
+
+  describe "GET #favorite_merchant" do
+    it "receives a response" do
+      get :favorite_merchant, customer_id: customer1.id, format: :json
+
+      expect(response).to have_http_status :success
+      expect(json_response["id"]).to eq merchant1.id
     end
   end
 end
