@@ -16,4 +16,8 @@ class Merchant < ActiveRecord::Base
     top_merchants.sort_by { |merchant| merchant.last }.reverse.map(&:first).first(quantity.to_i)
   end
 
+  def self.total_revenue_by_date(date)
+    { total_revenue: Invoice.all.where({created_at: date}).successful.joins(:invoice_items).sum("quantity * unit_price") }
+  end
+
 end

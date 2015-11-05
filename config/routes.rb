@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       resources :merchants, only: [:show, :index] do
         get :items
         get :invoices
+        get :revenue
 
         collection do
           get :find
@@ -59,6 +60,7 @@ Rails.application.routes.draw do
           get :random
           get :most_revenue
           get :most_items
+          get :revenue
         end
       end
 

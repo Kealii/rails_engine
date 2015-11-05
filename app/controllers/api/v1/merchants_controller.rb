@@ -35,6 +35,12 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.item_ranking(find_params[:quantity])
   end
 
+  def revenue
+    if params[:date]
+      respond_with Merchant.total_revenue_by_date(find_params[:date])
+    end
+  end
+
   private
 
   def find_params
@@ -43,6 +49,7 @@ class Api::V1::MerchantsController < ApplicationController
                   :merchant_id,
                   :created_at,
                   :updated_at,
-                  :quantity)
+                  :quantity,
+                  :date)
   end
 end
