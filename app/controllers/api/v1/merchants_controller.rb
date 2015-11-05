@@ -47,6 +47,10 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.find(find_params[:merchant_id]).favorite_customer
   end
 
+  def customers_with_pending_invoices
+    respond_with Merchant.find(find_params[:merchant_id]).pending_invoices
+  end
+
   private
 
   def find_params

@@ -54,6 +54,7 @@ Rails.application.routes.draw do
         get :invoices
         get :revenue
         get :favorite_customer
+        get :customers_with_pending_invoices
 
         collection do
           get :find

@@ -146,7 +146,10 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
 
   describe "GET #revenues_by_date" do
     it "returns the correct revenues by date" do
-      get :revenue, merchant_id: merchant1.id, date: merchant1.created_at, format: :json
+      get :revenue,
+          merchant_id: merchant1.id,
+          date: merchant1.created_at,
+          format: :json
 
       expect(response).to have_http_status :success
     end
@@ -171,6 +174,16 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
   describe "GET #favorite_customer" do
     it "returns the customer" do
       get :favorite_customer, merchant_id: merchant1.id, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
+
+  describe "GET #customers_with_unpaid_invoices" do
+    it "returns customers with 'failed' invoices" do
+      get :customers_with_pending_invoices,
+          merchant_id: merchant2.id,
+          format: :json
 
       expect(response).to have_http_status :success
     end

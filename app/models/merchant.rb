@@ -43,4 +43,8 @@ class Merchant < ActiveRecord::Base
     Customer.find(top_customer)
   end
 
+  def pending_invoices
+    invoices.pending.joins(:customer).uniq
+  end
+
 end
