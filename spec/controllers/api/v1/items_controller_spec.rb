@@ -176,4 +176,12 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
       expect(response).to have_http_status :success
     end
   end
+
+  describe "GET #best_day" do
+    it "returns date of most sales for an item" do
+      get :best_day, item_id: item1.id, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
 end

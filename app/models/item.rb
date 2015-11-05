@@ -23,4 +23,12 @@ class Item < ActiveRecord::Base
     sorted_items = item_quantities.sort_by { |item| item.last }.reverse
     sorted_items.map(&:first).first(quantity.to_i)
   end
+
+  def best_day
+    invoice_days = invoices.successful.group('"invoices"."created_at"')
+    invoice_revenues = invoice_days.sum("quantity * unit_price")
+    sorted_revenues = invoice_revenues.sort_by(&:last).map(&:first)
+    best_day = sorted_revenues.last
+    { best_day: best_day }
+  end
 end
