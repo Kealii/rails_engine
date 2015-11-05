@@ -17,10 +17,10 @@ class Item < ActiveRecord::Base
   end
 
   def self.most_items(quantity)
-    top_items = Item.all.map do |item|
+    item_quantities = Item.all.map do |item|
       [item, item.invoices.successful.sum("quantity")]
     end
-    sorted_items = top_items.sort_by { |item| item.last }.reverse
+    sorted_items = item_quantities.sort_by { |item| item.last }.reverse
     sorted_items.map(&:first).first(quantity.to_i)
   end
 end
