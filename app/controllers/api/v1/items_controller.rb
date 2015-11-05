@@ -28,7 +28,11 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def most_revenue
-    respond_with Item.most_revenue(params[:quantity])
+    respond_with Item.most_revenue(find_params[:quantity])
+  end
+
+  def most_items
+    respond_with Item.most_items(find_params[:quantity])
   end
 
   private
