@@ -132,11 +132,28 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
     end
   end
 
-  describe "GET #revenue_by_date" do
-    it "returns the correct number of merchant revenues" do
+  describe "GET #revenues_by_date" do
+    it "returns the correct revenues by date" do
       get :revenue, merchant_id: merchant1.id, date: merchant1.created_at, format: :json
 
       expect(response).to have_http_status :success
     end
   end
+
+  describe "GET #revenue" do
+    it "returns the merchant revenue" do
+      get :revenue, merchant_id: merchant1.id, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
+
+  describe "GET #revenue_by_date" do
+    it "returns the correct revenue by date" do
+      get :revenue_by_date, date: merchant1.created_at, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
+
 end

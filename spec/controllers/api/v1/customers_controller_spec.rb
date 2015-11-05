@@ -113,7 +113,6 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
   describe "GET #invoices" do
     it "returns invoices for a customer" do
       get :invoices, customer_id: customer1.id, format: :json
-
       expect(response).to have_http_status :success
       expect(json_response.count).to eq 2
       expect(json_response.first["id"]).to eq invoice1.id

@@ -60,7 +60,7 @@ Rails.application.routes.draw do
           get :random
           get :most_revenue
           get :most_items
-          get :revenue
+          get :revenue, action: :revenue_by_date
         end
       end
 
