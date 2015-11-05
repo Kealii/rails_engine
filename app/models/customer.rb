@@ -3,7 +3,9 @@ class Customer < ActiveRecord::Base
   has_many :transactions, through: :invoices
 
   def favorite_merchant
-    id = invoices.successful.group_by(&:merchant_id).sort_by { |k, v| v.count }.reverse.flatten.first
-    Merchant.find(id)
+    successful_invoices = invoices.successful.group_by(&:merchant_id)
+    sorted_invoices = successful_invoices.sort_by { |_, v| v.count }.reverse.flatten
+    top_merchant = sorted_invoices.first
+    Merchant.find(top_merchant)
   end
 end
