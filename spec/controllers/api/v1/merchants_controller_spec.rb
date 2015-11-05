@@ -6,6 +6,45 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
   let!(:merchant2) { Merchant.create(name: "Test Merchant") }
   let!(:merchant3) { Merchant.create(name: "Mercurio") }
 
+  let!(:customer1) { Customer.create(first_name: "Test",
+                                     last_name: "Customer") }
+  let!(:customer2) { Customer.create(first_name: "Test",
+                                     last_name: "Customer") }
+
+  let!(:item1) { Item.create(name: "Item 1",
+                             description: "Description 1",
+                             unit_price:  1,
+                             merchant_id: merchant1.id) }
+
+  let!(:item2) { Item.create(name: "Item 2",
+                             description: "Description 2",
+                             unit_price: 1,
+                             merchant_id: merchant1.id) }
+
+  let!(:item3) { Item.create(name: "Item 3",
+                             description: "Description 3",
+                             unit_price: 2,
+                             merchant_id: merchant2.id) }
+
+  let!(:invoice1) { Invoice.create(customer_id: customer1.id,
+                                   merchant_id: merchant1.id,
+                                   status:      "success") }
+
+  let!(:invoice2) { Invoice.create(customer_id: customer1.id,
+                                   merchant_id: merchant1.id,
+                                   status:      "success") }
+
+  let!(:invoice3) { Invoice.create(customer_id: customer2.id,
+                                   merchant_id: merchant2.id,
+                                   status:      "failed") }
+
+  let!(:transaction1) { Transaction.create(invoice_id: invoice1.id,
+                                           result:     "success") }
+  let!(:transaction2) { Transaction.create(invoice_id: invoice2.id,
+                                           result:     "success") }
+  let!(:transaction3) { Transaction.create(invoice_id: invoice3.id,
+                                           result:     "failed") }
+
   describe "GET #show" do
     it "returns the correct merchant" do
       get :show, id: merchant1.id, format: :json
@@ -70,21 +109,6 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
   end
 
   describe "GET #items" do
-    let!(:item1) { Item.create(name: "Item 1",
-                               description: "Description 1",
-                               unit_price:  1,
-                               merchant_id: merchant1.id) }
-
-    let!(:item2) { Item.create(name: "Item 2",
-                               description: "Description 2",
-                               unit_price: 1,
-                               merchant_id: merchant1.id) }
-
-    let!(:item3) { Item.create(name: "Item 3",
-                               description: "Description 3",
-                               unit_price: 2,
-                               merchant_id: merchant2.id) }
-
     it "returns items for a merchant" do
       get :items, merchant_id: merchant1.id, format: :json
 
@@ -94,18 +118,6 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
   end
 
   describe "GET #invoices" do
-    let!(:invoice1) { Invoice.create(customer_id: 1,
-                                     merchant_id: merchant1.id,
-                                     status:      "success") }
-
-    let!(:invoice2) { Invoice.create(customer_id: 1,
-                                     merchant_id: merchant1.id,
-                                     status:      "success") }
-
-    let!(:invoice3) { Invoice.create(customer_id: 2,
-                                     merchant_id: merchant2.id,
-                                     status:      "failed") }
-
     it "returns invoices for a merchant" do
       get :invoices, merchant_id: merchant1.id, format: :json
 
@@ -151,6 +163,14 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
   describe "GET #revenue_by_date" do
     it "returns the correct revenue by date" do
       get :revenue_by_date, date: merchant1.created_at, format: :json
+
+      expect(response).to have_http_status :success
+    end
+  end
+
+  describe "GET #favorite_customer" do
+    it "returns the customer" do
+      get :favorite_customer, merchant_id: merchant1.id, format: :json
 
       expect(response).to have_http_status :success
     end

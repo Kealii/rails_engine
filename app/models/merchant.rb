@@ -36,4 +36,11 @@ class Merchant < ActiveRecord::Base
     { revenue: invoices.successful.joins(:invoice_items).sum("quantity * unit_price") }
   end
 
+  def favorite_customer
+    successful_invoices = invoices.successful.group_by(&:customer_id)
+    sorted_invoices = successful_invoices.sort_by { |_, v| v.count }.reverse.flatten
+    top_customer = sorted_invoices.first
+    Customer.find(top_customer)
+  end
+
 end
